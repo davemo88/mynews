@@ -1,4 +1,5 @@
-proof of concept to show AI can easily tailor news articles to personal preferences
+### proof of concept
+show AI can easily tailor news articles to suit a target audience by modifying headlines with chat gpt via a browser extension.
 
 ### howto
 1. get an openai api key
