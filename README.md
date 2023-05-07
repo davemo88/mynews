@@ -1,5 +1,6 @@
 proof of concept to show AI can easily tailor news articles to personal prefences
 
+### howto
 1. get an openai api key
 2. [load the extension into chrome](https://bashvlas.com/blog/install-chrome-extension-in-developer-mode/)
 3. run the server from within `server/`:  
