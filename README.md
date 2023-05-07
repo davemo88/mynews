@@ -11,6 +11,6 @@ show AI can easily tailor news articles to suit a target audience  by modifying 
 
 ### next features
 - entire articles instead of just headlines
-- modify target audience in the browser
+- modify target audience in the browser ✅
 - more websites besides politico
 - learn target audience from user behavior
