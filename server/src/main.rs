@@ -11,7 +11,7 @@ use serde::Deserialize;
 
 const AUDIENCE_TEMPLATE_VARIABLE: &str = "AUDIENCE";
 const ARTICLE_TEMPLATE_VARIABLE: &str = "ARTICLE";
-const PREAMBLE_TEMPLATE: &str = "As a journalist, rewrite the following headline to appeal to a AUDIENCE audience: ARTICLE";
+const PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following headline to appeal to a AUDIENCE audience: ARTICLE";
 
 mod chat;
 use chat::chat;
@@ -25,7 +25,7 @@ struct MyNewsRequest {
 async fn mynews(Json(req): Json<MyNewsRequest>) -> impl IntoResponse {
     let mut messages = vec!();
     println!("request: {:?}", req);
-    let message = PREAMBLE_TEMPLATE.replace(AUDIENCE_TEMPLATE_VARIABLE, &req.audience.to_string()).replace(ARTICLE_TEMPLATE_VARIABLE, &req.content); 
+    let message = PROMPT_TEMPLATE.replace(AUDIENCE_TEMPLATE_VARIABLE, &req.audience.to_string()).replace(ARTICLE_TEMPLATE_VARIABLE, &req.content); 
     let reply = chat(Message::as_user(message), &mut messages).await;
     (StatusCode::OK, Json(reply.content))
 }
