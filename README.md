@@ -1,6 +1,4 @@
-### proof of concept
-show AI can easily tailor news articles to suit a target audience by modifying headlines with chat gpt via a browser extension
-
+## proof of concept
 ### howto
 1. get an openai api key
 2. [load the extension into chrome](https://bashvlas.com/blog/install-chrome-extension-in-developer-mode/)
