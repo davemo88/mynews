@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "MyNews",
+  "version": "1.0",
+  "description": "Make current events suit your tastes!",
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": [
+	"https://www.politico.com/news/*"
+      ]
+    }
+  ]
+}
