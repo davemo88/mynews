@@ -3,6 +3,12 @@
   "name": "MyNews",
   "version": "1.0",
   "description": "Make current events suit your tastes!",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
