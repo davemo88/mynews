@@ -1,4 +1,4 @@
-proof of concept to show AI can easily tailor news articles to personal prefences
+proof of concept to show AI can easily tailor news articles to personal preferences
 
 ### howto
 1. get an openai api key
