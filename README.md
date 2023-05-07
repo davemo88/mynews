@@ -7,3 +7,7 @@
 6. reload extension
 7. goto 4
 
+### next features
+- entire articles instead of just headlines
+- modify audience preference in the browser
+- more websites besides politico
