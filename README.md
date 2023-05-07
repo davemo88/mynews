@@ -6,8 +6,7 @@ show AI can easily tailor news articles to suit a target audience  by modifying 
 3. run the server from within `server/`:  
 `OPENAI_API_KEY=$OPENAI_API_KEY cargo run`
 4. go to [politico.com](https://www.politico.com/) and read some articles. watch the headlines get swapped out
-5. tweak content.js `audience` value to change the headline flavor
-6. reload extension
+5. set a new audience in the extension popup UI
 7. goto 4
 
 ### next features
