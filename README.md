@@ -1,4 +1,4 @@
-proof of concept to show AI can tailor all media to personal preferences without explicit prompting
+proof of concept to show AI can easily tailor news articles to personal prefences
 
 1. get an openai api key
 2. [load the extension into chrome](https://bashvlas.com/blog/install-chrome-extension-in-developer-mode/)
