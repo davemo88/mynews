@@ -1,4 +1,3 @@
-use core::fmt;
 use std::net::SocketAddr;
 use reqwest::Method;
 use tower_http::cors::{CorsLayer, Any};
@@ -21,25 +20,6 @@ use chat::chat;
 struct MyNewsRequest {
     pub content: String,
     pub audience: String,
-}
-
-#[derive(Debug, Deserialize)]
-enum Audience {
-    Liberal,
-    Conservative,
-    Silly,
-    Mormon,
-}
-
-impl fmt::Display for Audience {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", match self {
-            Self::Liberal => "liberal",
-            Self::Conservative => "conservative",
-            Self::Silly => "silly",
-            Self::Mormon => "Mormon",
-        })
-    }
 }
 
 async fn mynews(Json(req): Json<MyNewsRequest>) -> impl IntoResponse {
