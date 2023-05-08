@@ -13,7 +13,8 @@
     {
       "js": ["scripts/content.js"],
       "matches": [
-	"https://www.politico.com/news/*"
+	"https://www.politico.com/*",
+	"https://www.foxnews.com/*"
       ]
     }
   ]
