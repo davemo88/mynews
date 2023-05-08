@@ -8,7 +8,7 @@ if (article) {
     if (item.audience) {
       audience = item.audience;
     } else {
-      audience = "Medieval Knight";
+      audience = "Medieval Peasant";
     }
     console.log("audience", audience);
     req.open("POST", baseUrl, true);
