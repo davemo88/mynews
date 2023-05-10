@@ -14,7 +14,9 @@ show AI can easily tailor news articles to suit a target audience  by modifying 
 
 ### next features
 - entire articles instead of just headlines
+  - fox ✅
+  - politico
 - modify target audience in the browser ✅
-- more websites besides politico
+- more websites besides politico ✅
 - learn target audience from user behavior
-- see if gpt-4 can handle all the HTML parsing / text replacement
+- see if chatgpt can handle all the HTML parsing / text replacement
