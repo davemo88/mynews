@@ -20,6 +20,9 @@ async function rewriteHeadline(audience) {
 
 async function rewriteArticle(audience) {
   await Promise.all([...article()].map(async fragment => {
+// TODO: accumulate (rewritten?) fragments and send them along, include them in the prompt 
+// or as previous messages so it doesn't keep going "Listen up!" at the beginning of each
+// fragment
     fragment.textContent = await newFragment(fragment, audience);
   }));
 }
