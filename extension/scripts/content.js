@@ -1,13 +1,17 @@
 (async () => {
   chrome.runtime.onMessage.addListener(
     async function(_request, _sender, _sendResponse) {
-      await rewriteHeadline();
+      await rewritePage();
     }
   );
+  await rewritePage();
+})();
+
+async function rewritePage() {
   const a = await audience();
   await rewriteHeadline(a);
   await rewriteArticle(a);
-})();
+}
 
 async function rewriteHeadline(audience) {
   let hl = headline();
@@ -16,7 +20,6 @@ async function rewriteHeadline(audience) {
 
 async function rewriteArticle(audience) {
   await Promise.all([...article()].map(async fragment => {
-    console.log(fragment);
     fragment.textContent = await newFragment(fragment, audience);
   }));
 }

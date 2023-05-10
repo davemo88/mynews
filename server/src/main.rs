@@ -13,7 +13,7 @@ const AUDIENCE_TEMPLATE_VARIABLE: &str = "AUDIENCE";
 const HEADLINE_TEMPLATE_VARIABLE: &str = "HEADLINE";
 const HEADLINE_PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following headline to appeal to a AUDIENCE audience: HEADLINE";
 const FRAGMENT_TEMPLATE_VARIABLE: &str = "FRAGMENT";
-const FRAGMENT_PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following article fragment to appeal to a AUDIENCE audience: FRAGMENT";
+const FRAGMENT_PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following article fragment to appeal to a AUDIENCE audience. It's only part of an article, so don't assume it's the beginning. Here is the fragment: FRAGMENT";
 
 mod chat;
 use chat::chat;
