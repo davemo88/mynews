@@ -10,8 +10,10 @@ use chat::Message;
 use serde::Deserialize;
 
 const AUDIENCE_TEMPLATE_VARIABLE: &str = "AUDIENCE";
-const ARTICLE_TEMPLATE_VARIABLE: &str = "ARTICLE";
-const PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following headline to appeal to a AUDIENCE audience: ARTICLE";
+const HEADLINE_TEMPLATE_VARIABLE: &str = "HEADLINE";
+const HEADLINE_PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following headline to appeal to a AUDIENCE audience: HEADLINE";
+const FRAGMENT_TEMPLATE_VARIABLE: &str = "FRAGMENT";
+const FRAGMENT_PROMPT_TEMPLATE: &str = "As a journalist, rewrite the following article fragment to appeal to a AUDIENCE audience: FRAGMENT";
 
 mod chat;
 use chat::chat;
@@ -22,17 +24,27 @@ struct MyNewsRequest {
     pub audience: String,
 }
 
-async fn mynews(Json(req): Json<MyNewsRequest>) -> impl IntoResponse {
+async fn prompt(request: MyNewsRequest, prompt_template: &str, template_variable: &str) -> String {
     let mut messages = vec!();
-    println!("request: {:?}", req);
-    let message = PROMPT_TEMPLATE.replace(AUDIENCE_TEMPLATE_VARIABLE, &req.audience.to_string()).replace(ARTICLE_TEMPLATE_VARIABLE, &req.content); 
+    println!("headline request: {:?}", request);
+    let message = prompt_template.replace(AUDIENCE_TEMPLATE_VARIABLE, &request.audience.to_string()).replace(template_variable, &request.content); 
     let reply = chat(Message::as_user(message), &mut messages).await;
-    (StatusCode::OK, Json(reply.content))
+    reply.content
+}
+
+async fn headline(Json(request): Json<MyNewsRequest>) -> impl IntoResponse {
+    (StatusCode::OK, Json(prompt(request, HEADLINE_PROMPT_TEMPLATE, HEADLINE_TEMPLATE_VARIABLE).await))
+}
+
+async fn fragment(Json(request): Json<MyNewsRequest>) -> impl IntoResponse {
+    (StatusCode::OK, Json(prompt(request, FRAGMENT_PROMPT_TEMPLATE, FRAGMENT_TEMPLATE_VARIABLE).await))
 }
     
 #[tokio::main]
 async fn main() {
-    let router = Router::new().route("/mynews", post(mynews))
+    let router = Router::new()
+        .route("/headline", post(headline))
+        .route("/fragment", post(fragment))
         .layer(CorsLayer::new()
             .allow_methods([Method::POST])
             .allow_headers(Any)

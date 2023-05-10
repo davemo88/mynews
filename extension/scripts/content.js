@@ -15,9 +15,9 @@ async function rewriteHeadline(audience) {
 }
 
 async function rewriteArticle(audience) {
-  await Promise.all([...article()].map(async chunk => {
-    console.log(chunk);
-    chunk.textContent = await newHeadline(chunk, audience);
+  await Promise.all([...article()].map(async fragment => {
+    console.log(fragment);
+    fragment.textContent = await newFragment(fragment, audience);
   }));
 }
 
@@ -26,9 +26,26 @@ const headline = () => document.querySelector(".headline");
 const article = () => document.querySelectorAll(".story-text__paragraph");
 
 async function newHeadline(headline, audience) {
+  return await request("headline", headline, audience);
+}
+
+async function newFragment(fragment, audience) {
+  return await request("fragment", fragment, audience);
+}
+
+async function request(endpoint, headline, audience) {
   const response = await fetch(
-    "http://localhost:3000/mynews",
-    request(headline, audience)
+    "http://localhost:3000/" + endpoint,
+    {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        "content": headline.textContent,
+        "audience": audience
+      })
+    }
   );
   const body = await response.json();
   return unquote(body);
@@ -38,17 +55,6 @@ async function audience() {
   const a = (await chrome.storage.local.get("audience")).audience ?? "Medieval Peasant";
   return a;
 }
-
-const request = (headline, audience) => ({
-  method: "POST",
-  headers: {
-    "Content-type": "application/json"
-  },
-  body: JSON.stringify({
-    "content": headline.textContent,
-    "audience": audience
-  })
-})
 
 const unquote = (s) => s.replace(/["\\]+/g, '');
 
