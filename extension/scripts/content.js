@@ -1,29 +1,40 @@
-const article = document.querySelector(".headline");
-if (article) {
-  const content = article.textContent;
-  const req = new XMLHttpRequest();
-  const baseUrl = "http://localhost:3000/mynews";
-
-  chrome.storage.local.get("audience", function (item) {
-    if (item.audience) {
-      audience = item.audience;
-    } else {
-      audience = "Medieval Peasant";
+(async () => {
+  chrome.runtime.onMessage.addListener(
+    async function(_request, _sender, _sendResponse) {
+      await rewriteHeadline();
     }
-    console.log("audience", audience);
-    req.open("POST", baseUrl, true);
-    req.setRequestHeader("Content-type", "application/json");
-    const body = {
-      "content": content.replace("\"","").replace("\n",""),
-      "audience": audience,
-    };
-    console.log(body);
-    req.send(JSON.stringify(body));
+  );
+  await rewriteHeadline();
+})();
 
-    req.onreadystatechange = function() { // Call a function when the state changes.
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        article.textContent = this.responseText.replaceAll("\\\"","").replaceAll("\"","");
-      }
-    }
-  });
+async function rewriteHeadline() {
+  const a = (await chrome.storage.local.get("audience")).audience ?? "Medieval Peasant";
+  let hl = headline();
+  hl.textContent = await getAudienceHeadline(hl, a);
 }
+
+const headline = () => document.querySelector(".headline");
+
+async function getAudienceHeadline(headline, audience) {
+  const response = await fetch(
+    "http://localhost:3000/mynews",
+    request(headline, audience)
+  );
+  const body = await response.json();
+  return unquote(body);
+}
+
+const request = (headline, audience) => ({
+  method: "POST",
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({
+    "content": headline.textContent,
+    "audience": audience
+  })
+})
+
+const unquote = (s) => s.replace(/["\\]+/g, '');
+
+const getCurrentDomain = (tab) => new Url(tab.url).hostname;

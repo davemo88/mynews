@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', documentEvents  , false);
 
-function myAction(input) { 
-    console.log("input value is : " + input.value);
-    chrome.storage.local.set({"audience": input.value});
-    window.close();
+function setAudience(input) {
+  chrome.storage.local.set({"audience": input.value});
+  window.close();
 }
 
-function documentEvents() {    
+function documentEvents() {
   document.getElementById('ok_btn').addEventListener('click', 
-    function() { myAction(document.getElementById('audience_input'));
-  });
-
-  // you can add listeners for other objects ( like other buttons ) here 
+    async function() {
+      setAudience(document.getElementById('audience_input'));
+      const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+      chrome.tabs.sendMessage(tab.id, {});
+    }
+  );
 }
