@@ -9,22 +9,28 @@
 
 const classes = {
   "www.politico.com" : {
-    fragmentClass: ".story-text__paragraph"
+    headline: ".headline",
+    fragment: ".story-text__paragraph"
   },
   "www.foxnews.com" : {
-    fragmentClass: ".article-body"
+    headline: ".headline",
+    fragment: ".article-body"
+  },
+  "www.cnn.com" : {
+    headline: ".headline__text",
+    fragment: ".paragraph"
   },
 };
 
 async function rewritePage() {
   const a = await audience();
   const h = hostname();
-  await rewriteHeadline(a);
+  await rewriteHeadline(a, h);
   await rewriteArticle(a, h);
 }
 
-async function rewriteHeadline(audience) {
-  let hl = headline();
+async function rewriteHeadline(audience, hostname) {
+  let hl = headline(hostname);
   hl.textContent = await newHeadline(hl, audience);
 }
 
@@ -33,13 +39,14 @@ async function rewriteArticle(audience, hostname) {
 // TODO: accumulate (rewritten?) fragments and send them along, include them in the prompt 
 // or as previous messages so it doesn't keep going "Listen up!" at the beginning of each
 // fragment
+    console.log(fragment.textContent);
     fragment.textContent = await newFragment(fragment, audience);
   }));
 }
 
-const headline = () => document.querySelector(".headline");
+const headline = (hostname) => document.querySelector(classes[hostname].headline);
 
-const article = (hostname) => document.querySelectorAll(classes[hostname].fragmentClass);
+const article = (hostname) => document.querySelectorAll(classes[hostname].fragment);
 
 async function newHeadline(headline, audience) {
   return await request("headline", headline, audience);

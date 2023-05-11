@@ -26,7 +26,7 @@ struct MyNewsRequest {
 
 async fn prompt(request: MyNewsRequest, prompt_template: &str, template_variable: &str) -> String {
     let mut messages = vec!();
-    println!("headline request: {:?}", request);
+    println!("prompt data: {:?}", request);
     let message = prompt_template.replace(AUDIENCE_TEMPLATE_VARIABLE, &request.audience.to_string()).replace(template_variable, &request.content); 
     let reply = chat(Message::as_user(message), &mut messages).await;
     reply.content

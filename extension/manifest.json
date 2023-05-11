@@ -15,7 +15,8 @@
       "js": ["scripts/content.js"],
       "matches": [
 	"https://www.politico.com/*",
-	"https://www.foxnews.com/*"
+	"https://www.foxnews.com/*",
+	"https://www.cnn.com/*"
       ]
     }
   ]
