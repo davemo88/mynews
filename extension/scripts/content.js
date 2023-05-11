@@ -7,10 +7,20 @@
   await rewritePage();
 })();
 
+const classes = {
+  "www.politico.com" : {
+    fragmentClass: ".story-text__paragraph"
+  },
+  "www.foxnews.com" : {
+    fragmentClass: ".article-body"
+  },
+};
+
 async function rewritePage() {
   const a = await audience();
+  const h = hostname();
   await rewriteHeadline(a);
-  await rewriteArticle(a);
+  await rewriteArticle(a, h);
 }
 
 async function rewriteHeadline(audience) {
@@ -18,8 +28,8 @@ async function rewriteHeadline(audience) {
   hl.textContent = await newHeadline(hl, audience);
 }
 
-async function rewriteArticle(audience) {
-  await Promise.all([...article()].map(async fragment => {
+async function rewriteArticle(audience, hostname) {
+  await Promise.all([...article(hostname)].map(async fragment => {
 // TODO: accumulate (rewritten?) fragments and send them along, include them in the prompt 
 // or as previous messages so it doesn't keep going "Listen up!" at the beginning of each
 // fragment
@@ -29,7 +39,7 @@ async function rewriteArticle(audience) {
 
 const headline = () => document.querySelector(".headline");
 
-const article = () => document.querySelectorAll(".story-text__paragraph");
+const article = (hostname) => document.querySelectorAll(classes[hostname].fragmentClass);
 
 async function newHeadline(headline, audience) {
   return await request("headline", headline, audience);
@@ -64,4 +74,4 @@ async function audience() {
 
 const unquote = (s) => s.replace(/["\\]+/g, '');
 
-const getCurrentDomain = (tab) => new Url(tab.url).hostname;
+const hostname = () => new URL(location).hostname;
