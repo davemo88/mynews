@@ -8,14 +8,13 @@ show AI can easily tailor news articles to suit a target audience  by modifying 
 4. go to a supported news site and read some articles. watch the headlines get swapped out
     - [politico.com](https://www.politico.com/)
     - [foxnews.com](https://www.foxnews.com/)
-      - on fox it does the whole articles now
 6. set a new audience in the extension popup UI
 7. goto 4
 
 ### next features
 - entire articles instead of just headlines
-  - fox ✅
-  - politico
+  - fox
+  - politico ✅
 - modify target audience in the browser ✅
 - more websites besides politico ✅
 - learn target audience from user behavior
